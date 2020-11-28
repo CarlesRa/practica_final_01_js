@@ -1,5 +1,28 @@
 
 var articulosCarrito = new Array();
+
+//cargo los clientes
+var cliente = new Cliente(1, 'Pepe', 'Rodrigez Prieto', '543456567y', '15/03/23', 'jc@g.com', 'manoto');
+var cliente1 = new Cliente(2, 'Manolo', 'Fonambulo Martinez', '53215465t', '15/03/23', 'jc@g.com', 'manoto');
+var cliente2 = new Cliente(3, 'Martina', 'Ramos Moll', '54673456V', '15/03/23', 'jc@g.com', 'manoto');
+var cliente3 = new Cliente(4, 'Maria', 'Manolo Fenandez', '34567656U', '15/03/23', 'jc@g.com', 'manoto');
+var clientes = [
+	cliente, cliente1, cliente2, cliente3,
+	cliente, cliente1, cliente2, cliente3,
+	cliente, cliente1, cliente2, cliente3
+];
+
+//cargo los artículos
+var articulos = [
+	new Articulo(1,'tostadora', 'la mejor', 'hogar', 50.23),
+	new Articulo(2, 'portatil', 'el mejor', 'patatin', 568),
+	new Articulo(3, 'disco duro', 'de gena', 'info', 245),
+	new Articulo(4, 'fp2', 'la mejor', 'mascarilla', 2.5)
+];
+
+//cliente al que vendemos
+var clienteVenta;
+
 var insertarArticuloClicked;
 var btnInsertar = document.getElementById('btn-insertar');
 var carritoBody = document.getElementById('carrito-body');
@@ -29,11 +52,9 @@ function articuloSeleccionado(articulo) {
 function insertarArticuloCarrito(articulo) {
 
 	let cantidad = document.getElementById('cantidad');
-
-
+	
 	//Compruebo si ya esta insertado ese artículo
 	let existeArticulo = false;
-
 	articulosCarrito.forEach(articuloCarrito => {
 
 		if (articuloCarrito.articulo.id == articulo.id) {		
@@ -48,16 +69,24 @@ function insertarArticuloCarrito(articulo) {
 	}
 
 	btnInsertar.disabled = true;
-	btnInsertar.removeEventListener('click', insertarArticuloClicked, false);
 
-	pintarArticulos();
+	rellenarCarrito();
 }
 
-function pintarArticulos() {
+function rellenarCarrito() {
 
 	//borro el contenido actual del carrito  y pinto el nuevo
 	carritoBody.innerHTML = '';
-		
+	
+	let btnFinalizar = document.getElementById('finalizar-venta');
+
+	if (articulosCarrito.length == 0) {
+		btnFinalizar.disabled = true;
+	}
+	else {
+		btnFinalizar.disabled = false;
+	}
+	
 	articulosCarrito.forEach(articulo => {
 
 		btnInsertar = document.getElementById('btn-insertar');
@@ -81,7 +110,7 @@ function pintarArticulos() {
 		let tdCantidadTotal = document.createElement('td');
 		let textCantidadTotal = 
 			document.createTextNode(articulo.cantidad * 
-															articulo.articulo.precio);
+									articulo.articulo.precio);
 													
 		tdCantidadTotal.appendChild(textCantidadTotal);
 		carritoBody.appendChild(row);
@@ -101,10 +130,6 @@ function pintarArticulos() {
 	calcularTotalCarrito();
 }
 
-function borrarArticuloFila(row, articulo) {
-
-}
-
 function calcularTotalCarrito() {
 
 	let formulario = document.getElementById('forma');
@@ -118,6 +143,58 @@ function calcularTotalCarrito() {
 
 	cantidadTotalCarrito.textContent = cantidadTotal.toFixed(2);
 	formulario.reset();
+}
+
+function borrarArticuloFila(row, articulo) {
+
+	if (confirm('¿Desea eliminar el artículo del carrito?' +
+				'\nEsta operación es definitiva')) {
+		
+		row.remove();
+		articulosCarrito.splice(articulosCarrito.indexOf(articulo), 1);
+		rellenarCarrito();
+	}
+	else {
+		console.log('pulsado no');
+	}
+}
+
+function cancelarVenta() {
+
+	if (confirm('¿Cancelar Venta?\nSe perderan todos los datos...')) {
+		articulosCarrito = new Array();
+		cargarClientes();
+	}
+}
+
+function saveVenta() {
+
+	if (confirm('¿Desea guardar la venta?')) {
+		var ventas;//objeto ventas que contendrá array de ventas
+		var ventasStorage = JSON.parse(localStorage.getItem('ventas'));
+		var venta 
+		var ventaArray = new Array();
+		var id;
+		if (ventasStorage != null) {
+			console.log('entra ventas storage');
+			id = ventasStorage.ventas[ventasStorage.ventas.length -1].id + 1;
+			console.log(ventasStorage.ventas[ventasStorage.ventas.length -1].id);
+			venta = new Venta(id, clienteVenta, articulosCarrito)
+			ventasStorage.ventas.push(venta);
+			localStorage.removeItem('ventas');
+			localStorage.setItem('ventas', JSON.stringify(ventasStorage));
+		}
+		else {
+			console.log('primera venta');
+			id = 1;
+			venta = new Venta(id, clienteVenta, articulosCarrito)
+			ventaArray.push(venta);
+			ventas = new Ventas(ventaArray);
+			localStorage.setItem('ventas', JSON.stringify(ventas));
+		}
+		articulosCarrito = new Array();
+		cargarClientes();
+	}
 }
 
 function cantidadIsNumber(cantidad) {
@@ -152,18 +229,7 @@ function cargarClientes() {
 	carrito.style.display = 'none';
 	div.className = 'contenedor-clientes';
 	row.className = 'row';
-
-	//Esto vendra del local storage
-	let cliente = new Cliente(1, 'Pepe', 'Rodrigez Prieto', '543456567y', '15/03/23', 'jc@g.com', 'manoto');
-	let cliente1 = new Cliente(2, 'Manolo', 'Fonambulo Martinez', '53215465t', '15/03/23', 'jc@g.com', 'manoto');
-	let cliente2 = new Cliente(3, 'Martina', 'Ramos Moll', '54673456V', '15/03/23', 'jc@g.com', 'manoto');
-	let cliente3 = new Cliente(4, 'Maria', 'Manolo Fenandez', '34567656U', '15/03/23', 'jc@g.com', 'manoto');
-	let clientes = [
-		cliente, cliente1, cliente2, cliente3,
-		cliente, cliente1, cliente2, cliente3,
-		cliente, cliente1, cliente2, cliente3
-	];
-
+	//Vacio el contenido del contenedor padre de las cards
 	padre.innerHTML = '';
 
 	if (clientes.length > 0) {
@@ -183,7 +249,7 @@ function cargarClientes() {
 			let button = document.createElement('a');
 	
 	
-			col.className = 'row ml-5 mt-3 animate__animated animate__zoomIn';
+			col.className = 'row ml-5 mt-3 animate__animated animate__zoomInDown';
 			card.className = 'card';
 			body.className = 'card-body';
 			title.className = 'card-title';
@@ -216,6 +282,9 @@ function cargarClientes() {
 
 function cargarArticulos(cliente) {
 
+	//asigno el cliente al que vendemos
+	clienteVenta = cliente;
+
 	let formulario = document.getElementById('forma');
 	formulario.reset();
 
@@ -237,15 +306,6 @@ function cargarArticulos(cliente) {
 	apellidoCliente.textContent = cliente.apellido;
 	dniCliente.textContent = cliente.dni;
 
-	// Esto vendra del local storage
-	var articulos = [
-		new Articulo(1,'tostadora', 'la mejor', 'hogar', 50.23),
-		new Articulo(2, 'portatil', 'el mejor', 'patatin', 568),
-		new Articulo(3, 'disco duro', 'de gena', 'info', 245),
-		new Articulo(4, 'fp2', 'la mejor', 'mascarilla', 2.5)
-	]
-	
-
 	if (articulos.length > 0) {
 		carrito.style.display = 'inline';
 		articulos.forEach(articulo => {
@@ -258,7 +318,7 @@ function cargarArticulos(cliente) {
 			let p1 = document.createElement('p');
 			let textoTitulo = document.createTextNode(articulo.referencia);
 			let textoBody = document.createTextNode(articulo.descripcion);
-			let textoBody1 = document.createTextNode(articulo.precio);
+			let textoBody1 = document.createTextNode(articulo.precio  + '€');
 			let button = document.createElement('button');
 	
 	

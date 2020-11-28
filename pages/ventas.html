@@ -15,6 +15,7 @@
 	<script src="../model/models.js"></script>
 	<script src="../scripts/main.js"></script>
 	<script src="../scripts/ventas.js" defer></script>
+	<script src="../scripts/ficheros.js"></script>
 </head>
 
 <body>
@@ -93,12 +94,6 @@
 								<p id="dni-cliente" class="text-lg"></p>
 							</div>
 						</div>
-						<!-- <div class="row mt-3">
-							<input type="text" name="apellido_cliente" id="apellido_cliente" disabled>
-						</div>
-						<div class="row mt-3 mb-3">
-							<input type="text" name="dni_cliente" id="dni_cliente" disabled>
-						</div> -->
 					</div>
 
 					<div class="col-sm">
@@ -142,13 +137,13 @@
 					</div>
 					<div class="col">
 						<label for="total-carrito">Total Carrito:</label>
-						<output class="m-left-60"><b id="total-carrito"></b>€</output>
+						<output class="m-left-60"><b id="total-carrito">0.00</b>€</output>
 					</div>
 					<div class="col">
-						<button class="btn btn-success btn-sm">FINALIZAR VENTA</button>
+						<button class="btn btn-success btn-sm" onclick="saveVenta()" id="finalizar-venta" disabled>FINALIZAR VENTA</button>
 					</div>
 					<div class="col">
-						<button class="btn btn-danger btn-sm">CANCELAR VENTA</button>
+						<button class="btn btn-danger btn-sm" onclick="cancelarVenta()">CANCELAR VENTA</button>
 					</div>
 				</div>
 				<div class="row animate__animated animate__zoomIn border">

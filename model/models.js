@@ -25,8 +25,9 @@ function ArticuloCarrito(articulo, cantidad) {
 	this.cantidad = cantidad;
 }
 
-function Venta(cliente, articulos) {
+function Venta(id ,cliente, articulos) {
 	
+	this.id = id;
 	this.cliente = cliente;
 	this.articulos = articulos;
 }
