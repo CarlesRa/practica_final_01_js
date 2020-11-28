@@ -25,11 +25,12 @@ function ArticuloCarrito(articulo, cantidad) {
 	this.cantidad = cantidad;
 }
 
-function Venta(id ,cliente, articulos) {
+function Venta(id ,cliente, articulos, totalVenta) {
 	
 	this.id = id;
 	this.cliente = cliente;
 	this.articulos = articulos;
+	this.totalVenta = totalVenta;
 }
 
 function Ventas(ventas) {
