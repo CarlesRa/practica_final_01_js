@@ -1,0 +1,32 @@
+.img-size {
+	width: 250px;
+	height: 150px;
+}
+
+.none {
+	display: none;
+}
+
+th {
+	font-size: 12px;
+}
+
+td {
+	font-size: 13px;
+}
+
+.a-right {
+	text-align: right;
+}
+
+.m-left-60 {
+	margin-left: 40%;
+}
+
+.text-lg {
+	font-size: 1.3rem;
+}
+
+.danger {
+	color: red;
+}
