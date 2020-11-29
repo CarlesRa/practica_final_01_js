@@ -1,9 +1,10 @@
 
 var articulosCarrito = new Array();
-console.log('entra ventas');
 
 //cargo los clientes
 var clientes = JSON.parse(localStorage.getItem('clientes'));
+
+console.log(clientes);
 
 //cargo los artículos
 var articulos = JSON.parse(localStorage.getItem('articulos'));
@@ -166,27 +167,29 @@ function cancelarVenta() {
 function saveVenta() {
 
 	if (confirm('¿Desea guardar la venta?')) {
-		let ventas;//objeto ventas que contendrá array de ventas
+		//let ventas;//objeto ventas que contendrá array de ventas
 		let ventasStorage = JSON.parse(localStorage.getItem('ventas'));
 		let venta 
-		let ventaArray = new Array();
+		//let ventaArray = new Array();
 		let id;
 		if (ventasStorage != null) {
 
 			id = ventasStorage.ventas[ventasStorage.ventas.length -1].id + 1;
-			venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
-			ventasStorage.ventas.push(venta);
-			localStorage.removeItem('ventas');
-			localStorage.setItem('ventas', JSON.stringify(ventasStorage));
 		}
 		else {
 
 			id = 1;
-			venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
-			ventaArray.push(venta);
-			ventas = new Ventas(ventaArray);
-			localStorage.setItem('ventas', JSON.stringify(ventas));
 		}
+		venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
+		if (ventasStorage != null) {
+			ventasStorage.ventas.push(venta);
+		}
+		else {
+			ventasStorage = new Array();
+			ventasStorage.push(venta);
+		}
+		localStorage.removeItem('ventas');
+		localStorage.setItem('ventas', JSON.stringify(ventasStorage));
 		articulosCarrito = new Array();
 		rellenarCarrito();
 		alert('Venta registrada con éxito!!');
