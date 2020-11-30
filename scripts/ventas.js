@@ -191,25 +191,26 @@ function cancelarVenta() {
  */
 function saveVenta() {
 
+	let ventasStorage = JSON.parse(localStorage.getItem('ventas'));
 	if (confirm('¿Desea guardar la venta?')) {
 		
 		//checkeo la cookie
 		if (cookieExists('venta', 'activa')) {
-			let ventasStorage = JSON.parse(localStorage.getItem('ventas'));
+			
 			let venta 
 			//let ventaArray = new Array();
 			let id;
-			if (ventasStorage != null) {
+			if (ventasStorage !== null && ventasStorage.length > 0) {
 	
-				id = ventasStorage.ventas[ventasStorage.ventas.length -1].id + 1;
+				id = ventasStorage[ventasStorage.length -1].id + 1;
 			}
 			else {
 	
 				id = 1;
 			}
 			venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
-			if (ventasStorage != null) {
-				ventasStorage.ventas.push(venta);
+			if (ventasStorage !== null && ventasStorage.length > 0) {
+				ventasStorage.push(venta);
 			}
 			else {
 				ventasStorage = new Array();
@@ -235,11 +236,18 @@ function saveVenta() {
 function borrarVenta() {
 
 	if (confirm('¿Desea borrar la venta?')) {
-		ventasFromStorage.ventas.splice(ventasFromStorage.ventas.indexOf(ventaCargada), 1);
-		localStorage.removeItem('ventas');
-		if (ventasFromStorage.ventas.length > 0) {
-			localStorage.setItem('ventas', JSON.stringify(ventasFromStorage));
+
+		if (ventasFromStorage !== null && ventasFromStorage.length <= 1) {
+			localStorage.removeItem('ventas');
 		}
+		else {
+			ventasFromStorage.ventas.splice(ventasFromStorage.ventas.indexOf(ventaCargada), 1);
+			localStorage.removeItem('ventas');
+			if (ventasFromStorage.ventas.length > 0) {
+				localStorage.setItem('ventas', JSON.stringify(ventasFromStorage));
+			}
+		}
+
 		cargarVentas();
 	}
 }
@@ -483,7 +491,7 @@ function cargarVentas() {
 	//Vacio el contenido del contenedor padre de las cards
 	padre.innerHTML = '';
 
-	if (ventasFromStorage != null) {
+	if (ventasFromStorage !== null && ventasFromStorage.length > 0) {
 
 		let a = document.createElement('a');
 		a.appendChild(document.createTextNode('Volver a ventas'));
@@ -491,7 +499,7 @@ function cargarVentas() {
 		titulo.textContent = 'Seleccione una venta:   ';
 		titulo.appendChild(a);
 
-		ventasFromStorage.ventas.forEach(venta => {
+		ventasFromStorage.forEach(venta => {
 
 			let col = document.createElement('div');
 			let card = document.createElement('div');
