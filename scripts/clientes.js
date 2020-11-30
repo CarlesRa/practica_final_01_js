@@ -118,6 +118,9 @@ function eliminarCliente(cliente) {
 		localStorage.removeItem('clientes');
 		localStorage.setItem('clientes', JSON.stringify(clientes))
 		form.reset();
+		let submitButton = document.getElementById('submit');
+		submitButton.innerHTML = "ACTUALIZAR CLIENTE";
+
 		cargarClientes();
 	}
 }
@@ -165,6 +168,7 @@ function cargarClientes() {
 			p1.className = 'card-text';
 			button.className = 'btn btn-info';
 			button.text = 'ACTUALIZAR';
+
 			button.addEventListener('click', function() {
 				let submitButton = document.getElementById('submit');
 				submitButton.innerHTML = "ACTUALIZAR CLIENTE";
@@ -173,8 +177,6 @@ function cargarClientes() {
 			buttonEliminar.className = 'btn btn-danger ml-3';
 			buttonEliminar.text = 'BORRAR';
 			buttonEliminar.addEventListener('click', function() {
-				let submitButton = document.getElementById('submit');
-				submitButton.innerHTML = "ACTUALIZAR CLIENTE";
 				eliminarCliente(cliente);
 			}); 
 	
@@ -195,6 +197,8 @@ function cargarClientes() {
 	}
 	else {
 		let p = document.getElementById('no-clientes');
+		let submitButton = document.getElementById('submit');
+		submitButton.innerHTML = "GUARDAR NUEVO CLIENTE";
 		clientes = null;
 		p.innerHTML = 'No hay clientes registrados...';
 		p.style.color = 'red';
