@@ -16,6 +16,9 @@ setMaxDateInput();
 //Compruebo si hay clientes
 hayClientes();
 
+/**
+ * Función para validar el formulario 
+ */
 function validarForm() {
 
     let isOk = true;
@@ -44,6 +47,9 @@ function validarForm() {
     }
  }
 
+ /**
+  * Función que guarda el cliente
+  */
 function saveCliente() {
 
 
@@ -93,6 +99,10 @@ function saveCliente() {
 	}
 }
 
+/**
+ * Función que elimina un cliente
+ * @param {cliente a eliminar} cliente 
+ */
 function eliminarCliente(cliente) {
 
 	if (confirm('¿Desea borrar el cliente ' + cliente.apellido +'?')) {
@@ -112,6 +122,10 @@ function eliminarCliente(cliente) {
 	}
 }
 
+/**
+ * Función que carga los clientes y los pinta,
+ * en caso de no haber muestra mensaje informativo
+ */
 function cargarClientes() {
 
 	let jumbo = document.getElementById('jumbo');
@@ -187,6 +201,10 @@ function cargarClientes() {
 	}
 }
 
+/**
+ * Función que comprueba si hay clientes, en caso de no haber
+ * muestra mensaje informativo
+ */
 function hayClientes() {
 
 	if (clientes == null || clientes.length === 0) {
@@ -197,6 +215,11 @@ function hayClientes() {
 	}
 }
 
+/**
+ * Comrueba con el método de la libreria si el nombre es correcto
+ * en caso contrario, muestra el mensaje de error
+ * @param {nombre a validar} value 
+ */
 function validarNombre(value) {
 
 	let p = document.getElementById('pNombre');
@@ -214,6 +237,11 @@ function validarNombre(value) {
 	}
 }
 
+/**
+ * Comrueba con el método de la libreria si el apellido es correcto
+ * en caso contrario, muestra el mensaje de error
+ * @param {apellido a validar} value 
+ */
 function validarApellido(value) {
 
 	let p = document.getElementById('pApellido');
@@ -231,6 +259,11 @@ function validarApellido(value) {
 	}
 }
 
+/**
+ * Comrueba con el método de la libreria si el dni es correcto
+ * en caso contrario, muestra el mensaje de error
+ * @param {dni a validar} value 
+ */
 function validarDni(value) {
 	let p = document.getElementById('pDni');
 
@@ -247,6 +280,11 @@ function validarDni(value) {
 	}
 }
 
+/**
+ * Comrueba con el método de la libreria si el email es correcto
+ * en caso contrario, muestra el mensaje de error
+ * @param {email a validar} value 
+ */
 function validarEmail(value) {
 	let p = document.getElementById('pEmail');
 
@@ -262,6 +300,11 @@ function validarEmail(value) {
 	}
 }
 
+/**
+ * Comrueba con el método de la libreria si la fecha es correcta
+ * en caso contrario, muestra el mensaje de error
+ * @param {fecha a validar} value 
+ */
 function validarFechaNac(value) {
 	
 	let p = document.getElementById('pFecha');
@@ -284,6 +327,11 @@ function validarFechaNac(value) {
     }
 }
 
+/**
+ * Comrueba con el método de la libreria si el password es correcto
+ * en caso contrario, muestra el mensaje de error
+ * @param {password a validar} value 
+ */
 function validarPassword(value) {
 
     let p = document.getElementById('pPass');
@@ -301,6 +349,10 @@ function validarPassword(value) {
     }
 }
 
+/**
+ * Carga el cliente en el formulario
+ * @param {cliente a cargar} cliente 
+ */
 function cargarClienteEnForm(cliente) {
 	
 	clienteSeleccionado = cliente;
@@ -313,6 +365,10 @@ function cargarClienteEnForm(cliente) {
 
 }
 
+/**
+ * Función que hace que el calendario solo muestre hasta 
+ * el dia actual
+ */
 function setMaxDateInput() {
 
 	var today = new Date();

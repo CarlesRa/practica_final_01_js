@@ -11,6 +11,9 @@ let buttonSubmit = document.getElementById('submit');
 //Compruebo si hay artículos
 hayArticulos();
 
+/**
+ * Función para validar el formulario 
+ */
 function validarForm() {
 
     let isOk = true;
@@ -32,6 +35,9 @@ function validarForm() {
     }
  }
 
+/**
+* Función que guarda el artículo
+*/
 function saveArticulo() {
 
 	if (confirm('¿Desea guardar el artículo?')) {
@@ -76,6 +82,10 @@ function saveArticulo() {
 	}
 }
 
+/**
+ * Función que elimina un artículo
+ * @param {artículo a eliminar} cliente 
+ */
 function eliminarArticulo(articulo) {
 
 	if (confirm('¿Desea borrar el artículo ' + articulo.referencia +'?')) {
@@ -95,6 +105,10 @@ function eliminarArticulo(articulo) {
 	}
 }
 
+/**
+ * Función que determina si hay articulos en caso que no
+ * muestra mensaje informativo
+ */
 function hayArticulos() {
 
 	if (articulos == null || articulos.length === 0) {
@@ -105,6 +119,10 @@ function hayArticulos() {
 	}
 }
 
+/**
+ * Función que carga los artículos y los pinta,
+ * en caso de no haber muestra mensaje informativo
+ */
 function cargarArticulos() {
 
 	let jumbo = document.getElementById('jumbo');
@@ -181,6 +199,11 @@ function cargarArticulos() {
 	}
 }
 
+/**
+ * Comrueba con el método de la libreria si la referencia es correcta
+ * en caso contrario, muestra el mensaje de error
+ * @param {referencia a validar} value 
+ */
 function validarReferencia(value) {
 
 	let p = document.getElementById('pReferencia');
@@ -197,6 +220,11 @@ function validarReferencia(value) {
 	}
 }
 
+/**
+ * Comrueba con el método de la libreria si la descripción es correcta
+ * en caso contrario, muestra el mensaje de error
+ * @param {referencia a validar} value 
+ */
 function validarDescripcion(value) {
 
 	let p = document.getElementById('pDescripcion');
@@ -213,6 +241,11 @@ function validarDescripcion(value) {
 	}
 }
 
+/**
+ * Comrueba con el método de la libreria si la familia es correcta
+ * en caso contrario, muestra el mensaje de error
+ * @param {familia a validar} value 
+ */
 function validarFamilia(value) {
 
 	let p = document.getElementById('pFamilia');
@@ -229,6 +262,10 @@ function validarFamilia(value) {
 	}
 }
 
+/**
+ * Comprueba se el precio es un número
+ * @param {precio a validar} value 
+ */
 function validarPrecio(value) {
 
 	let p = document.getElementById('pPrecio');
@@ -245,7 +282,10 @@ function validarPrecio(value) {
 	}
 }
 
-
+/**
+ * Carga el artículo seleccionado en el formulario
+ * @param {artículo a cargar} articulo 
+ */
 function cargarArticuloEnForm(articulo) {
 	
 	articuloSeleccionado = articulo;

@@ -16,7 +16,9 @@ var ventasFromStorage;
 //venta que cargaré para manipularla
 var ventaCargada;
 
+//Función para manejar cuando se selecciona el artículo
 var insertarArticuloClicked;
+
 var btnInsertar = document.getElementById('btn-insertar');
 var carritoBody = document.getElementById('carrito-body');
 btnInsertar.disabled = true;
@@ -28,13 +30,19 @@ function articuloSeleccionado(articulo) {
 	let referencia = document.getElementById('referencia');
 	let precio = document.getElementById('precio');
 	
+	/**
+	 * Elimino el evento click para que cuando obtener el artículo correcto
+	 * al seleccionarlo
+	 */
 	btnInsertar.removeEventListener('click', insertarArticuloClicked, false);
+
 	id.value = articulo.id;
 	referencia.value = articulo.referencia;
 	precio.value = articulo.precio;
 	cantidad.disabled = false;
 	cantidad.focus();
 
+	//función para manejar cuando se pulsa un artículo
 	insertarArticuloClicked = function() {
 
 		insertarArticuloCarrito(articulo);
@@ -43,6 +51,10 @@ function articuloSeleccionado(articulo) {
 	btnInsertar.addEventListener('click', insertarArticuloClicked); 
 }
 
+/**
+ * función para insertar artículos
+ * @param {El artículo a insertar} articulo 
+ */
 function insertarArticuloCarrito(articulo) {
 
 	let cantidad = document.getElementById('cantidad');
@@ -67,6 +79,9 @@ function insertarArticuloCarrito(articulo) {
 	rellenarCarrito();
 }
 
+/**
+ * Función que llena el carrito con los artículos
+ */
 function rellenarCarrito() {
 
 	//borro el contenido actual del carrito  y pinto el nuevo
@@ -127,6 +142,10 @@ function rellenarCarrito() {
 	formulario.reset();
 }
 
+/**
+ * Función que calcula el total del carrito
+ * segun los articulos que contiene
+ */
 function calcularTotalCarrito() {
 
 	let cantidadTotal = 0;
@@ -140,6 +159,11 @@ function calcularTotalCarrito() {
 	
 }
 
+/**
+ * función que borra la fila de la tabla y del array
+ * @param {fila que borrar} row 
+ * @param {artículo que borramos} articulo 
+ */
 function borrarArticuloFila(row, articulo) {
 
 	if (confirm('¿Desea eliminar el artículo del carrito?' +
@@ -151,6 +175,9 @@ function borrarArticuloFila(row, articulo) {
 	}
 }
 
+/**
+ * Función para cancelar la venta
+ */
 function cancelarVenta() {
 
 	if (confirm('¿Cancelar Venta?')) {
@@ -159,39 +186,52 @@ function cancelarVenta() {
 	}
 }
 
+/**
+ * Función que guarda la venta
+ */
 function saveVenta() {
 
 	if (confirm('¿Desea guardar la venta?')) {
-		//let ventas;//objeto ventas que contendrá array de ventas
-		let ventasStorage = JSON.parse(localStorage.getItem('ventas'));
-		let venta 
-		//let ventaArray = new Array();
-		let id;
-		if (ventasStorage != null) {
-
-			id = ventasStorage.ventas[ventasStorage.ventas.length -1].id + 1;
+		
+		//checkeo la cookie
+		if (cookieExists('venta', 'activa')) {
+			let ventasStorage = JSON.parse(localStorage.getItem('ventas'));
+			let venta 
+			//let ventaArray = new Array();
+			let id;
+			if (ventasStorage != null) {
+	
+				id = ventasStorage.ventas[ventasStorage.ventas.length -1].id + 1;
+			}
+			else {
+	
+				id = 1;
+			}
+			venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
+			if (ventasStorage != null) {
+				ventasStorage.ventas.push(venta);
+			}
+			else {
+				ventasStorage = new Array();
+				ventasStorage.push(venta);
+			}
+			localStorage.removeItem('ventas');
+			localStorage.setItem('ventas', JSON.stringify(ventasStorage));
+			articulosCarrito = new Array();
+			rellenarCarrito();
+			deleteCookie('venta');
+			alert('Venta registrada con éxito!!');
 		}
 		else {
-
-			id = 1;
+			alert('He excedido el tiempo de realizar la venta..')
 		}
-		venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
-		if (ventasStorage != null) {
-			ventasStorage.ventas.push(venta);
-		}
-		else {
-			ventasStorage = new Array();
-			ventasStorage.push(venta);
-		}
-		localStorage.removeItem('ventas');
-		localStorage.setItem('ventas', JSON.stringify(ventasStorage));
-		articulosCarrito = new Array();
-		rellenarCarrito();
-		alert('Venta registrada con éxito!!');
 		window.location.href = './ventas.html';
 	}
 }
 
+/**
+ * Funcion que borra la venta seleccionada
+ */
 function borrarVenta() {
 
 	if (confirm('¿Desea borrar la venta?')) {
@@ -204,6 +244,11 @@ function borrarVenta() {
 	}
 }
 
+/**
+ * Función que determina si un valor es un número
+ * En caso que no, muestra un mensaje de error
+ * @param {pasamos un valor} cantidad 
+ */
 function cantidadIsNumber(cantidad) {
 
 	let lbCantidad = document.getElementById('lb-cantidad');
@@ -221,7 +266,10 @@ function cantidadIsNumber(cantidad) {
 	
 }
 
-
+/**
+ * Función encargada de cargar los clientes y los pinta
+ * si no hay muestra mensaje informando
+ */
 function cargarClientes() {
 
 	let btnBorrar = document.getElementById('borrar-venta');
@@ -298,13 +346,23 @@ function cargarClientes() {
 	}
 }
 
+/**
+ * Carga los artículos en el carrito
+ * @param {cliente al que vendemos} cliente 
+ */
 function cargarArticulos(cliente) {
 
 	/**
 	 * Al entrar este método emieza la venta, pongo la cookie que
 	 * expirará en 30m.
 	 */
-	initCookie(1);
+	initCookie('venta', 'activa', 1);
+
+	/**
+	 * Inicio el contador para avisar cuando faltan
+	 * 5 minutos para poder finalizar la venta
+	 */
+	initAlertExpiresSession();
 
 	//asigno el cliente al que vendemos
 	clienteVenta = cliente;
@@ -401,6 +459,10 @@ function cargarArticulos(cliente) {
 	}); 
 }
 
+/**
+ * Carga las ventas almacenadas, en caso de no haber
+ * muestra mensaje informativo
+ */
 function cargarVentas() {
 
 	ventasFromStorage = JSON.parse(localStorage.getItem('ventas'));
@@ -483,7 +545,50 @@ function cargarVentas() {
 	}
 }
 
-function initCookie(time) {
+/**
+ * Inicia una cookie
+ * @param {nombre de la cookie} name 
+ * @param {valor de la cookie} value 
+ * @param {tiempo duración en minutos} maxAge 
+ */
+function initCookie(name, value, maxAge) {
 
-    document.cookie = "compra=activa;max-age=" + time * 60;
+	document.cookie = name + "=" + value + ";max-age=" + maxAge * 60;
+
+}
+
+/**
+ * Borra la cookie con el nombre que le pasemos
+ * @param {nombre cookie} name 
+ */
+function deleteCookie(name) {
+	document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+/**
+ * Elimina una cookie con nombre y valor específico
+ * @param {nomnbre de la cookie} name 
+ * @param {valor de la cookie} value 
+ */
+function cookieExists(name, value) {
+
+	let cookie = document.cookie.split(';');
+	let index = cookie.indexOf(name + '=' + value);
+
+	if (index === -1) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
+/**
+ * Inicia una alerta para avisar que han pasado 25m.
+ */
+function initAlertExpiresSession() {
+
+	setTimeout(function() {
+		alert('¡¡Tiene 5 minutos para finalizar la venta!!');
+	}, 25 * 60 * 1000);
 }
