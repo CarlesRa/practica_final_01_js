@@ -242,7 +242,7 @@ function borrarVenta() {
 			localStorage.removeItem('ventas');
 		}
 		else {
-			ventasFromStorage.splice(ventasFromStorage.ventas.indexOf(ventaCargada), 1);
+			ventasFromStorage.splice(ventasFromStorage.indexOf(ventaCargada), 1);
 			localStorage.removeItem('ventas');
 			if (ventasFromStorage.length > 0) {
 				localStorage.setItem('ventas', JSON.stringify(ventasFromStorage));
