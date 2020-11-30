@@ -226,6 +226,7 @@ function saveVenta() {
 		else {
 			alert('He excedido el tiempo de realizar la venta..')
 		}
+		//vuelvo a ventas
 		window.location.href = './ventas.html';
 	}
 }
