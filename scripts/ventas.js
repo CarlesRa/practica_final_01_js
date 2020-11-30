@@ -242,9 +242,9 @@ function borrarVenta() {
 			localStorage.removeItem('ventas');
 		}
 		else {
-			ventasFromStorage.ventas.splice(ventasFromStorage.ventas.indexOf(ventaCargada), 1);
+			ventasFromStorage.splice(ventasFromStorage.ventas.indexOf(ventaCargada), 1);
 			localStorage.removeItem('ventas');
-			if (ventasFromStorage.ventas.length > 0) {
+			if (ventasFromStorage.length > 0) {
 				localStorage.setItem('ventas', JSON.stringify(ventasFromStorage));
 			}
 		}
