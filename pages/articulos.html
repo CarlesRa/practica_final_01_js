@@ -11,7 +11,7 @@
     
     <script src="../model/models.js"></script>
     <script src="../utils/lib.js"></script>
-    <script src="../scripts/clientes.js" defer></script>
+    <script src="../scripts/articulos.js" defer></script>
 </head>
 <body>
     
@@ -35,10 +35,10 @@
 						<a class="nav-link" href="../pages/ventas.html">Ventas</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" href="../pages/clientes.html">Clientes</a>
+						<a class="nav-link" href="../pages/clientes.html">Clientes</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="../pages/articulos.html">Artículos</a>
+						<a class="nav-link active" href="../pages/articulos.html">Artículos</a>
 					</li>
 			</div>
 		</nav>
@@ -50,14 +50,14 @@
                 <div class="row" id="jumbo">
                     <div class="col">
                         <div class="jumbotron">
-                            <h1 class="display-4">Clientes</h1>
+                            <h1 class="display-4">Artículos</h1>
                             <p class="lead">Sistema gestor de tienda.</p>
                             <hr class="my-4">
-                            <p>Operaciones sobre clientes.</p>
+                            <p>Operaciones sobre artículos.</p>
                             <p class="lead">
-                                <button class="btn btn-primary btn-lg" type="button" onclick="cargarClientes()" id="modificar">MODIFICAR CLIENTES EXISTENTES</button>
+                                <button class="btn btn-primary btn-lg" type="button" onclick="cargarArticulos()" id="modificar">MODIFICAR ARTÍCULOS EXISTENTES</button>
                             </p>
-                            <p id="no-clientes"></p>
+                            <p id="no-articulos"></p>
                         </div>
                     </div>
                 </div>
@@ -70,36 +70,26 @@
             <div class="col-md-5">
                 <form id="forma">
                     <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" onkeyup="validarNombre(this.value)" class="form-control" name="nombre" id="nombre" aria-describedby="emailHelp" placeholder="Introduce el nombre">
-                        <p id="pNombre" style="display: none;">El nombre es obligatorio...</p>
+                        <label for="referencia">Referencia</label>
+                        <input type="text" class="form-control" name="referencia" id="referencia" aria-describedby="emailHelp" placeholder="Introduce la referencia">
+                        <p id="pReferencia" style="display: none;">La referencia es obligatoria...</p>
                     </div>
                     <div class="form-group">
-                        <label for="apellido">Apellido</label>
-                        <input type="text" onkeyup="validarApellido(this.value)" class="form-control" name="apellido" id="apellido" aria-describedby="emailHelp" placeholder="Introduce el nombre">
-                        <p id="pApellido" style="display: none;">El apellido es obligatorio...</p>
+                        <label for="descripción">Descripción</label>
+                        <input type="text" class="form-control" name="descripcion" id="descripcion" aria-describedby="emailHelp" placeholder="Introduce la descripción">
+                        <p id="pDescripcion" style="display: none;">La descripción es obligatoria...</p>
                     </div>
                     <div class="form-group">
-                        <label for="dni">Dni</label>
-                        <input type="text"  onkeyup="validarDni(this.value)"  class="form-control" name="dni" id="dni" placeholder="Introduce el dni">
-                        <p id="pDni" style="display: none;">Dni incorrecto...</p>
+                        <label for="familia">Familia</label>
+                        <input type="text"   class="form-control" name="familia" id="familia" placeholder="Introduce la familia">
+                        <p id="pFamilia" style="display: none;">La familia es obligatoria...</p>
                     </div>
                     <div class="form-group">
-                        <label for="fecha">Fecha de Nacimiento</label>
-                        <input type="date" onkeyup="validarFechaNac(this.value)" min='1920-01-01' max='' class="form-control datepicker" name="fecha" id="fecha">
-                        <p id="pFecha" style="display: none;">fecha incorrecta...</p>
+                        <label for="precio">Precio</label>
+                        <input type="number" placeholder="Introduce el precio" class="form-control" name="precio" id="precio">
+                        <p id="pPrecio" style="display: none;">la fecha de nacimiento es obligatoria...</p>
                     </div>
-                    <div class="form-group">
-                      <label for="email">Email</label>
-                      <input type="email"  onkeyup="validarEmail(this.value)"  class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                      <p id="pEmail" style="display: none;">Email incorrecto...</p>
-                    </div>
-                    <div class="form-group">
-                      <label for="pass">Password</label>
-                      <input type="password"  onkeyup="validarPassword(this.value)"  class="form-control" name="pass" id="pass" placeholder="Password">
-                      <p id="pPass" style="display: none;">El password es obligatorio...</p>
-                    </div>
-                    <button type="button" class="btn btn-success" onclick="validarForm()" id="submit">GUARDAR NUEVO CLIENTE</button>
+                    <button type="button" class="btn btn-success" onclick="validarForm()" id="submit">GUARDAR NUEVO ARTÍCULO</button>
                   </form>
             </div>
         </div>

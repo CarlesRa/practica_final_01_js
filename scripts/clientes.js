@@ -13,6 +13,9 @@ let buttonSubmit = document.getElementById('submit');
 //seteo la fecha máxima del input calendario
 setMaxDateInput();
 
+//Compruebo si hay clientes
+hayClientes();
+
 function validarForm() {
 
     let isOk = true;
@@ -26,7 +29,7 @@ function validarForm() {
     else if (!validarDni(dni.value)) {
         isOk = false;
     }
-    else if (!validarFechaNac(fechaNac)) {
+    else if (!validarFechaNac(fechaNac.value)) {
         isOk = false;
     }
     else if (!validarEmail(email.value)) {
@@ -93,10 +96,19 @@ function saveCliente() {
 function eliminarCliente(cliente) {
 
 	if (confirm('¿Desea borrar el cliente ' + cliente.apellido +'?')) {
+
+		if (clientes.length === 1) {
+			let cardColumns = document.getElementById('cards-container');
+			let jumbo = document.getElementById('jumbo');
+			cardColumns.innerHTML = '';
+			jumbo.style.display = 'inline';
+		}
+
 		clientes.splice(clientes.indexOf(cliente), 1);
 		localStorage.removeItem('clientes');
 		localStorage.setItem('clientes', JSON.stringify(clientes))
-		window.location.href = './clientes.html';
+		form.reset();
+		cargarClientes();
 	}
 }
 
@@ -175,6 +187,16 @@ function cargarClientes() {
 	}
 }
 
+function hayClientes() {
+
+	if (clientes == null || clientes.length === 0) {
+		let p = document.getElementById('no-clientes');
+		clientes = null;
+		p.innerHTML = 'No hay clientes registrados...';
+		p.style.color = 'red';
+	}
+}
+
 function validarNombre(value) {
 
 	let p = document.getElementById('pNombre');
@@ -182,7 +204,8 @@ function validarNombre(value) {
 	if (!libValidarCampoTexto(value)) {
 
         p.style.display = 'inline';
-        p.style.color = 'red';
+		p.style.color = 'red';
+		nombre.focus();
 		return false;
 	}
 	else {
@@ -199,7 +222,7 @@ function validarApellido(value) {
 		
 		p.style.display = 'inline';
         p.style.color = 'red';
-
+		apellido.focus();
 		return false;
 	}
 	else {
@@ -215,7 +238,7 @@ function validarDni(value) {
 
 		p.style.display = 'inline';
         p.style.color = 'red';
-
+		dni.focus();
 		return false;
 	}
 	else {
@@ -230,7 +253,7 @@ function validarEmail(value) {
 	if (!libEsEmail(value)) {
 		p.style.display = 'inline';
         p.style.color = 'red';
-
+		email.focus();
 		return false;
 	}
 	else {
@@ -248,7 +271,7 @@ function validarFechaNac(value) {
 
         p.style.display = 'inline';
         p.style.color = 'red';
-
+		fechaNac.focus();
 		return false;
     }
     else {

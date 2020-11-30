@@ -200,7 +200,7 @@ function borrarVenta() {
 		if (ventasFromStorage.ventas.length > 0) {
 			localStorage.setItem('ventas', JSON.stringify(ventasFromStorage));
 		}
-		window.location.href = './ventas.html';
+		cargarVentas();
 	}
 }
 
@@ -300,6 +300,12 @@ function cargarClientes() {
 
 function cargarArticulos(cliente) {
 
+	/**
+	 * Al entrar este método emieza la venta, pongo la cookie que
+	 * expirará en 30m.
+	 */
+	initCookie(1);
+
 	//asigno el cliente al que vendemos
 	clienteVenta = cliente;
 
@@ -323,58 +329,76 @@ function cargarArticulos(cliente) {
 	apellidoCliente.textContent = cliente.apellido;
 	dniCliente.textContent = cliente.dni;
 
-	if (articulos != null && articulos.length > 0) {
-		titulo.textContent = 'Seleccione articulos para añadir';
-		carrito.style.display = 'inline';
-		articulos.forEach(articulo => {
-	
-			let col = document.createElement('div');
-			let card = document.createElement('div');
-			let body = document.createElement('div');
-			let title = document.createElement('h5');
-			let p = document.createElement('p');
-			let p1 = document.createElement('p');
-			let textoTitulo = document.createTextNode('ID: ' + articulo.id);
-			let textoBody = document.createTextNode('REF: ' + articulo.referencia);
-			let textoBody1 = document.createTextNode('PRECIO: ' + articulo.precio  + '€');
-			let button = document.createElement('button');
-	
-	
-			col.className = 'row ml-5 mt-3 animate__animated animate__zoomIn';
-			card.className = 'card';
-			body.className = 'card-body';
-			title.className = 'card-title';
-			p.className = 'card-text';
-			p1.className = 'card-text';
-			button.className = 'btn btn-primary';
-			button.textContent = 'SELECCIONAR';
-			button.addEventListener('click', function() {
-				articuloSeleccionado(articulo);
-			});
-	
-			title.appendChild(textoTitulo);
-			p.appendChild(textoBody);
-			p1.appendChild(textoBody1);
-			body.appendChild(title);
-			body.appendChild(p);
-			body.appendChild(p1);
-			body.appendChild(button);
-			card.appendChild(body);
-			col.appendChild(card);
-			row.appendChild(col);
-			div.appendChild(row);
-			padre.appendChild(div);
-			
-		}); 
+	if (articulos == null || articulos.length == 0) {
+
+		titulo.textContent = 'No hay artículos en el almacen...';
+		titulo.style.color = 'red';
+		titulo.appendChild(document.createElement('br'));
+		let p = document.createElement('p');
+
+		let buttonHome = document.createElement('button');
+		buttonHome.textContent = "VOLVER A HOME";
+		buttonHome.className = 'btn btn-primary mt-3';
+		buttonHome.addEventListener('click', function() {
+			window.location.href = '../index.html';
+		});
+
+		let buttonArticulos = document.createElement('button');
+		buttonArticulos.textContent = 'AÑADIR ARTÍCULOS';
+		buttonArticulos.className = 'btn btn-primary mt-3 ml-3';
+		buttonArticulos.addEventListener('click', function() {
+			window.location.href = '../pages/articulos.html';
+		});
+
+		p.appendChild(buttonHome);
+		p.appendChild(buttonArticulos);
+		titulo.appendChild(p);
 	}
 	else {
-		articulos = null;
-		titulo.textContent = 'No hay artículos en el almacen...';
-		let enlace = document.createElement('a');
-		enlace.href = '../index.html';
-		enlace.textContent = '  <-Volver a Home';
-		titulo.appendChild(enlace);
+		titulo.textContent = 'Seleccione articulos para añadir';
 	}
+	
+	carrito.style.display = 'inline';
+	articulos.forEach(articulo => {
+	
+		let col = document.createElement('div');
+		let card = document.createElement('div');
+		let body = document.createElement('div');
+		let title = document.createElement('h5');
+		let p = document.createElement('p');
+		let p1 = document.createElement('p');
+		let textoTitulo = document.createTextNode('ID: ' + articulo.id);
+		let textoBody = document.createTextNode('REF: ' + articulo.referencia);
+		let textoBody1 = document.createTextNode('PRECIO: ' + articulo.precio  + '€');
+		let button = document.createElement('button');
+	
+	
+		col.className = 'row ml-5 mt-3 animate__animated animate__zoomIn';
+		card.className = 'card';
+		body.className = 'card-body';
+		title.className = 'card-title';
+		p.className = 'card-text';
+		p1.className = 'card-text';
+		button.className = 'btn btn-primary';
+		button.textContent = 'SELECCIONAR';
+		button.addEventListener('click', function() {
+			articuloSeleccionado(articulo);
+		});
+	
+		title.appendChild(textoTitulo);
+		p.appendChild(textoBody);
+		p1.appendChild(textoBody1);
+		body.appendChild(title);
+		body.appendChild(p);
+		body.appendChild(p1);
+		body.appendChild(button);
+		card.appendChild(body);
+		col.appendChild(card);
+		row.appendChild(col);
+		div.appendChild(row);
+		padre.appendChild(div);
+			
+	}); 
 }
 
 function cargarVentas() {
@@ -415,7 +439,7 @@ function cargarVentas() {
 			let p1 = document.createElement('p');
 			let textoTitulo = document.createTextNode('ID: ' + venta.id);
 			let textoBody = document.createTextNode('CLIENTE: ' + venta.cliente.nombre);
-			let textoBody1 = document.createTextNode('TOTAL: ' + venta.totalVenta);
+			let textoBody1 = document.createTextNode('TOTAL: ' + venta.totalVenta + ' €');
 			let button = document.createElement('a');
 	
 	
@@ -457,4 +481,9 @@ function cargarVentas() {
 		enlace.textContent = '  <-Volver a Home';
 		titulo.appendChild(enlace);
 	}
+}
+
+function initCookie(time) {
+
+    document.cookie = "compra=activa;max-age=" + time * 60;
 }
