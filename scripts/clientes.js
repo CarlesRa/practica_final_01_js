@@ -26,7 +26,7 @@ function validarForm() {
     else if (!validarDni(dni.value)) {
         isOk = false;
     }
-    else if (!validarFechaNac(fechaNac.value)) {
+    else if (!validarFechaNac(fechaNac)) {
         isOk = false;
     }
     else if (!validarEmail(email.value)) {
@@ -48,6 +48,7 @@ function saveCliente() {
 	if (confirm('¿Desea guardar el cliente?')) {
 
 		let buttonSubmit = document.getElementById('submit');
+
 		if (buttonSubmit.textContent === "ACTUALIZAR CLIENTE") {
 			
 			clientes.splice(clientes.indexOf(clienteSeleccionado), 1);
@@ -61,7 +62,7 @@ function saveCliente() {
 		}
 		else {
 			let id;
-			if (clientes != null) {
+			if (clientes != null && clientes.length > 0) {
 	
 				id = clientes[clientes.length -1].id + 1;	
 			}
@@ -83,8 +84,9 @@ function saveCliente() {
 
 		localStorage.removeItem('clientes');
 		localStorage.setItem('clientes', JSON.stringify(clientes));
+		buttonSubmit.textContent = "GARDAR NUEVO CLIENTE";
 		form.reset();
-		window.location = "../index.html";
+		cargarClientes();
 	}
 }
 
@@ -101,10 +103,12 @@ function eliminarCliente(cliente) {
 function cargarClientes() {
 
 	let jumbo = document.getElementById('jumbo');
+	clientes = JSON.parse(localStorage.getItem('clientes'));
 
-	if (clientes != null) {
+	if (clientes != null && clientes.length > 0) {
 
-	    let padre = document.getElementById('cards-container');
+		let padre = document.getElementById('cards-container');
+		padre.innerHTML = '';
 	    let div = document.createElement('div');
 	    let row = document.createElement('div');
 
@@ -120,9 +124,9 @@ function cargarClientes() {
 			let title = document.createElement('h5');
 			let p = document.createElement('p');
 			let p1 = document.createElement('p');
-			let textoTitulo = document.createTextNode(cliente.apellido);
-			let textoBody = document.createTextNode(cliente.nombre);
-			let textoBody1 = document.createTextNode(cliente.dni);
+			let textoTitulo = document.createTextNode('ID: ' + cliente.id);
+			let textoBody = document.createTextNode('NOMBRE: ' + cliente.nombre);
+			let textoBody1 = document.createTextNode('DNI: ' + cliente.dni);
 			let button = document.createElement('a');
 			let buttonEliminar = document.createElement('a');
 	
@@ -165,6 +169,7 @@ function cargarClientes() {
 	}
 	else {
 		let p = document.getElementById('no-clientes');
+		clientes = null;
 		p.innerHTML = 'No hay clientes registrados...';
 		p.style.color = 'red';
 	}
@@ -235,9 +240,10 @@ function validarEmail(value) {
 }
 
 function validarFechaNac(value) {
-
+	
 	let p = document.getElementById('pFecha');
-
+	let year = parseInt(value.substring(0, 4));
+	let actualYear = parseInt(new Date().getFullYear());
     if (!value) {
 
         p.style.display = 'inline';
@@ -246,6 +252,10 @@ function validarFechaNac(value) {
 		return false;
     }
     else {
+
+		if (year > actualYear + 18 || year < actualYear -100) {
+			return false;
+		}
         p.style.display = 'none';
 		return true;
     }

@@ -4,8 +4,6 @@ var articulosCarrito = new Array();
 //cargo los clientes
 var clientes = JSON.parse(localStorage.getItem('clientes'));
 
-console.log(clientes);
-
 //cargo los artículos
 var articulos = JSON.parse(localStorage.getItem('articulos'));
 
@@ -151,9 +149,6 @@ function borrarArticuloFila(row, articulo) {
 		articulosCarrito.splice(articulosCarrito.indexOf(articulo), 1);
 		rellenarCarrito();
 	}
-	else {
-		console.log('pulsado no');
-	}
 }
 
 function cancelarVenta() {
@@ -193,7 +188,7 @@ function saveVenta() {
 		articulosCarrito = new Array();
 		rellenarCarrito();
 		alert('Venta registrada con éxito!!');
-		window.location.href = '../index.html';
+		window.location.href = './ventas.html';
 	}
 }
 
@@ -205,7 +200,7 @@ function borrarVenta() {
 		if (ventasFromStorage.ventas.length > 0) {
 			localStorage.setItem('ventas', JSON.stringify(ventasFromStorage));
 		}
-		window.location.href = '../index.html';
+		window.location.href = './ventas.html';
 	}
 }
 
@@ -245,9 +240,13 @@ function cargarClientes() {
 	//Vacio el contenido del contenedor padre de las cards
 	padre.innerHTML = '';
 
-	if (clientes != null) {
+	if (clientes != null && clientes.length > 0) {
 
-		titulo.textContent = 'Seleccione un cliente:';
+		let a = document.createElement('a');
+		a.appendChild(document.createTextNode('Volver a ventas'));
+		a.href = './ventas.html';
+		titulo.textContent = 'Seleccione un cliente:   ';
+		titulo.appendChild(a);
 		clientes.forEach(cliente => {
 
 			let col = document.createElement('div');
@@ -256,9 +255,9 @@ function cargarClientes() {
 			let title = document.createElement('h5');
 			let p = document.createElement('p');
 			let p1 = document.createElement('p');
-			let textoTitulo = document.createTextNode(cliente.apellido);
-			let textoBody = document.createTextNode(cliente.nombre);
-			let textoBody1 = document.createTextNode(cliente.dni);
+			let textoTitulo = document.createTextNode('ID: ' + cliente.id);
+			let textoBody = document.createTextNode('NOMBRE: ' + cliente.nombre);
+			let textoBody1 = document.createTextNode('DNI: ' + cliente.dni);
 			let button = document.createElement('a');
 	
 	
@@ -290,6 +289,7 @@ function cargarClientes() {
 	}
 	else {
 
+		clientes = null;
 		titulo.textContent = 'No hay clientes registrados...';
 		let enlace = document.createElement('a');
 		enlace.href = '../index.html';
@@ -323,7 +323,7 @@ function cargarArticulos(cliente) {
 	apellidoCliente.textContent = cliente.apellido;
 	dniCliente.textContent = cliente.dni;
 
-	if (articulos != null) {
+	if (articulos != null && articulos.length > 0) {
 		titulo.textContent = 'Seleccione articulos para añadir';
 		carrito.style.display = 'inline';
 		articulos.forEach(articulo => {
@@ -334,9 +334,9 @@ function cargarArticulos(cliente) {
 			let title = document.createElement('h5');
 			let p = document.createElement('p');
 			let p1 = document.createElement('p');
-			let textoTitulo = document.createTextNode(articulo.referencia);
-			let textoBody = document.createTextNode(articulo.descripcion);
-			let textoBody1 = document.createTextNode(articulo.precio  + '€');
+			let textoTitulo = document.createTextNode('ID: ' + articulo.id);
+			let textoBody = document.createTextNode('REF: ' + articulo.referencia);
+			let textoBody1 = document.createTextNode('PRECIO: ' + articulo.precio  + '€');
 			let button = document.createElement('button');
 	
 	
@@ -368,6 +368,7 @@ function cargarArticulos(cliente) {
 		}); 
 	}
 	else {
+		articulos = null;
 		titulo.textContent = 'No hay artículos en el almacen...';
 		let enlace = document.createElement('a');
 		enlace.href = '../index.html';
@@ -398,7 +399,12 @@ function cargarVentas() {
 
 	if (ventasFromStorage != null) {
 
-		titulo.textContent = 'Seleccione una venta:';
+		let a = document.createElement('a');
+		a.appendChild(document.createTextNode('Volver a ventas'));
+		a.href = './ventas.html';
+		titulo.textContent = 'Seleccione una venta:   ';
+		titulo.appendChild(a);
+
 		ventasFromStorage.ventas.forEach(venta => {
 
 			let col = document.createElement('div');
@@ -407,9 +413,9 @@ function cargarVentas() {
 			let title = document.createElement('h5');
 			let p = document.createElement('p');
 			let p1 = document.createElement('p');
-			let textoTitulo = document.createTextNode(venta.id);
-			let textoBody = document.createTextNode(venta.cliente.apellido);
-			let textoBody1 = document.createTextNode(venta.totalVenta);
+			let textoTitulo = document.createTextNode('ID: ' + venta.id);
+			let textoBody = document.createTextNode('CLIENTE: ' + venta.cliente.nombre);
+			let textoBody1 = document.createTextNode('TOTAL: ' + venta.totalVenta);
 			let button = document.createElement('a');
 	
 	
@@ -424,7 +430,6 @@ function cargarVentas() {
 
 			button.addEventListener('click', function() {
 				articulosCarrito = venta.articulos;
-				console.log(ventasFromStorage);
 				ventaCargada = venta;
 				cargarArticulos(venta.cliente);
 				rellenarCarrito()
@@ -445,6 +450,7 @@ function cargarVentas() {
 		});
 	}
 	else {
+		ventas = null;
 		titulo.textContent = 'No hay ventas registradas...';
 		let enlace = document.createElement('a');
 		enlace.href = '../index.html';
