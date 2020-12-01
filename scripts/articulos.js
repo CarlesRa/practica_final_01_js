@@ -95,6 +95,7 @@ function eliminarArticulo(articulo) {
 			let jumbo = document.getElementById('jumbo');
 			cardColumns.innerHTML = '';
 			jumbo.style.display = 'inline';
+			localStorage.removeItem('articulos');
 		}
 		articulos.splice(articulos.indexOf(articulo), 1);
 		localStorage.removeItem('articulos');
@@ -154,7 +155,7 @@ function cargarArticulos() {
 			let buttonEliminar = document.createElement('a');
 	
 	
-			col.className = 'col ml-3 mt-3 animate__animated animate__zoomInDown';
+			col.className = 'row ml-5 mt-3 animate__animated animate__zoomInDown';
 			card.className = 'card';
 			body.className = 'card-body';
 			title.className = 'card-title';

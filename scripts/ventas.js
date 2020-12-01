@@ -300,7 +300,7 @@ function cargarClientes() {
 	if (clientes != null && clientes.length > 0) {
 
 		let a = document.createElement('a');
-		a.appendChild(document.createTextNode('Volver a ventas'));
+		a.appendChild(document.createTextNode('  o Volver a ventas'));
 		a.href = './ventas.html';
 		titulo.textContent = 'Seleccione un cliente:   ';
 		titulo.appendChild(a);
@@ -348,6 +348,7 @@ function cargarClientes() {
 
 		clientes = null;
 		titulo.textContent = 'No hay clientes registrados...';
+		titulo.style.color = 'red';
 		let enlace = document.createElement('a');
 		enlace.href = '../index.html';
 		enlace.textContent = '  <-Volver a Home';
@@ -363,7 +364,8 @@ function cargarArticulos(cliente) {
 
 	/**
 	 * Al entrar este método emieza la venta, pongo la cookie que
-	 * expirará en 30m.
+	 * expirará en 30m.Para las pruebas la pongo a 1, solo hay que 
+	 * cambiar el valor numérico al que se desee.
 	 */
 	initCookie('venta', 'activa', 1);
 
@@ -482,11 +484,11 @@ function cargarVentas() {
 	let carrito = document.getElementById('carrito');
 	let div = document.createElement('div');
 	let row = document.createElement('div');
-	let btnCanelar = document.getElementById('cancelar-venta');
+	let btnCancelar = document.getElementById('cancelar-venta');
 	
 	jumbotron.style.display = 'none';
 	carrito.style.display = 'none';
-	btnCanelar.style.display = 'none';
+	//btnCancelar.style.display = 'none';
 	div.className = 'contenedor-clientes';
 	row.className = 'row';
 	//Vacio el contenido del contenedor padre de las cards
@@ -495,7 +497,7 @@ function cargarVentas() {
 	if (ventasFromStorage !== null && ventasFromStorage.length > 0) {
 
 		let a = document.createElement('a');
-		a.appendChild(document.createTextNode('Volver a ventas'));
+		a.appendChild(document.createTextNode('  o Volver a ventas'));
 		a.href = './ventas.html';
 		titulo.textContent = 'Seleccione una venta:   ';
 		titulo.appendChild(a);
@@ -547,10 +549,11 @@ function cargarVentas() {
 	else {
 		ventas = null;
 		titulo.textContent = 'No hay ventas registradas...';
+		titulo.className = 'animate__animated animate__fadeInUp mt-5'
 		titulo.style.color = 'red';
 		let enlace = document.createElement('a');
-		enlace.href = '../index.html';
-		enlace.textContent = '  <-Volver a Home';
+		enlace.href = './ventas.html';
+		enlace.textContent = '  <-Volver a Ventas';
 		titulo.appendChild(enlace);
 	}
 }
@@ -576,7 +579,7 @@ function deleteCookie(name) {
 }
 
 /**
- * Elimina una cookie con nombre y valor específico
+ * Determina si existe una cookie con nombre y valor pasado
  * @param {nomnbre de la cookie} name 
  * @param {valor de la cookie} value 
  */

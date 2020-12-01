@@ -108,10 +108,12 @@ function eliminarCliente(cliente) {
 	if (confirm('¿Desea borrar el cliente ' + cliente.apellido +'?')) {
 
 		if (clientes.length === 1) {
+			console.log('entra 1');
 			let cardColumns = document.getElementById('cards-container');
 			let jumbo = document.getElementById('jumbo');
 			cardColumns.innerHTML = '';
 			jumbo.style.display = 'inline';
+			localStorage.removeItem('clientes');
 		}
 
 		clientes.splice(clientes.indexOf(cliente), 1);
