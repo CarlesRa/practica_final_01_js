@@ -320,16 +320,19 @@ function validarFechaNac(value) {
 
         p.style.display = 'inline';
         p.style.color = 'red';
-		fechaNac.focus();
-		return false;
+				fechaNac.focus();
+				return false;
     }
     else {
 
-		if (year > actualYear + 18 || year < actualYear -100) {
-			return false;
-		}
-        p.style.display = 'none';
-		return true;
+			if (year > actualYear - 18 || year < actualYear -100) {
+				return false;
+			}
+			else {
+				p.style.display = 'none';
+				return true;
+			}
+        
     }
 }
 

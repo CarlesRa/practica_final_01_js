@@ -367,7 +367,7 @@ function cargarArticulos(cliente) {
 	 * expirará en 30m.Para las pruebas la pongo a 1, solo hay que 
 	 * cambiar el valor numérico al que se desee.
 	 */
-	initCookie('venta', 'activa', 1);
+	initCookie('venta', 'activa', 30);
 
 	/**
 	 * Inicio el contador para avisar cuando faltan
