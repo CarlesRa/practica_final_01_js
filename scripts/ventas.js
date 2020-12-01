@@ -547,6 +547,7 @@ function cargarVentas() {
 	else {
 		ventas = null;
 		titulo.textContent = 'No hay ventas registradas...';
+		titulo.style.color = 'red';
 		let enlace = document.createElement('a');
 		enlace.href = '../index.html';
 		enlace.textContent = '  <-Volver a Home';

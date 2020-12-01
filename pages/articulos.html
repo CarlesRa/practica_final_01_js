@@ -64,31 +64,31 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="card-columns animate__animated animate__zoomIn" id="cards-container"></div>
+                        <div class="card-columns row" id="cards-container"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 animate__animated animate__zoomIn">
+            <div class="col-md-5 animate__animated animate__zoomIn rounded border border-info p-4">
                 <form id="forma">
                     <div class="form-group">
                         <label for="referencia">Referencia</label>
-                        <input type="text" class="form-control" name="referencia" id="referencia" aria-describedby="emailHelp" placeholder="Introduce la referencia">
+                        <input type="text" onkeyup="validarReferencia(this.value)" class="form-control" name="referencia" id="referencia" aria-describedby="emailHelp" placeholder="Introduce la referencia">
                         <p id="pReferencia" style="display: none;">La referencia es obligatoria...</p>
                     </div>
                     <div class="form-group">
                         <label for="descripción">Descripción</label>
-                        <input type="text" class="form-control" name="descripcion" id="descripcion" aria-describedby="emailHelp" placeholder="Introduce la descripción">
+                        <input type="text" onkeyup="validaarDescripcion(this.value)" class="form-control" name="descripcion" id="descripcion" aria-describedby="emailHelp" placeholder="Introduce la descripción">
                         <p id="pDescripcion" style="display: none;">La descripción es obligatoria...</p>
                     </div>
                     <div class="form-group">
                         <label for="familia">Familia</label>
-                        <input type="text"   class="form-control" name="familia" id="familia" placeholder="Introduce la familia">
+                        <input type="text" onkeyup="validarFamilia(this.value)"   class="form-control" name="familia" id="familia" placeholder="Introduce la familia">
                         <p id="pFamilia" style="display: none;">La familia es obligatoria...</p>
                     </div>
                     <div class="form-group">
                         <label for="precio">Precio</label>
-                        <input type="number" placeholder="Introduce el precio" class="form-control" name="precio" id="precio">
-                        <p id="pPrecio" style="display: none;">la fecha de nacimiento es obligatoria...</p>
+                        <input type="number" onkeyup="validarPrecio(this.value)" placeholder="Introduce el precio" class="form-control" name="precio" id="precio">
+                        <p id="pPrecio" style="display: none;">Introduzca un precio valido...</p>
                     </div>
                     <button type="button" class="btn btn-success" onclick="validarForm()" id="submit">GUARDAR NUEVO ARTÍCULO</button>
                   </form>

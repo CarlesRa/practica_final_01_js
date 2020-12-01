@@ -154,7 +154,7 @@ function cargarArticulos() {
 			let buttonEliminar = document.createElement('a');
 	
 	
-			col.className = 'row ml-5 mt-3 animate__animated animate__zoomInDown';
+			col.className = 'col ml-3 mt-3 animate__animated animate__zoomInDown';
 			card.className = 'card';
 			body.className = 'card-body';
 			title.className = 'card-title';
@@ -211,7 +211,8 @@ function validarReferencia(value) {
 	if (!libValidarCampoTexto(value)) {
 
         p.style.display = 'inline';
-        p.style.color = 'red';
+		p.style.color = 'red';
+		referencia.focus();
 		return false;
 	}
 	else {
@@ -232,7 +233,8 @@ function validarDescripcion(value) {
 	if (!libValidarCampoTexto(value)) {
 
         p.style.display = 'inline';
-        p.style.color = 'red';
+		p.style.color = 'red';
+		descripcion.focus();
 		return false;
 	}
 	else {
@@ -253,7 +255,8 @@ function validarFamilia(value) {
 	if (!libValidarCampoTexto(value)) {
 
         p.style.display = 'inline';
-        p.style.color = 'red';
+		p.style.color = 'red';
+		familia.focus();
 		return false;
 	}
 	else {
@@ -270,10 +273,11 @@ function validarPrecio(value) {
 
 	let p = document.getElementById('pPrecio');
 
-	if (isNaN(value)) {
+	if (isNaN(value) || !value) {
 
         p.style.display = 'inline';
-        p.style.color = 'red';
+		p.style.color = 'red';
+		precio.focus();
 		return false;
 	}
 	else {
