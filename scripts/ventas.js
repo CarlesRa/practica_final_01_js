@@ -197,24 +197,37 @@ function saveVenta() {
 		//checkeo la cookie
 		if (cookieExists('venta', 'activa')) {
 			
+
 			let venta 
-			//let ventaArray = new Array();
 			let id;
-			if (ventasStorage !== null && ventasStorage.length > 0) {
-	
-				id = ventasStorage[ventasStorage.length -1].id + 1;
+			let buttonGuardarVenta = document.getElementById('finalizar-venta');
+
+			if (buttonGuardarVenta.textContent == 'ACTUALIZAR VENTA') {
+
+				ventasStorage.splice(ventasStorage.indexOf(ventaCargada), 1);
+				ventaCargada.articulos = articulosCarrito;
+				ventaCargada.totalVenta = calcularTotalCarrito();
+				ventasStorage.push(ventaCargada);
+
+				console.log(ventaCargada);
 			}
 			else {
+				if (ventasStorage !== null && ventasStorage.length > 0) {
 	
-				id = 1;
-			}
-			venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
-			if (ventasStorage !== null && ventasStorage.length > 0) {
-				ventasStorage.push(venta);
-			}
-			else {
-				ventasStorage = new Array();
-				ventasStorage.push(venta);
+					id = ventasStorage[ventasStorage.length -1].id + 1;
+				}
+				else {
+		
+					id = 1;
+				}
+				venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
+				if (ventasStorage !== null && ventasStorage.length > 0) {
+					ventasStorage.push(venta);
+				}
+				else {
+					ventasStorage = new Array();
+					ventasStorage.push(venta);
+				}
 			}
 			localStorage.removeItem('ventas');
 			localStorage.setItem('ventas', JSON.stringify(ventasStorage));
@@ -512,7 +525,7 @@ function cargarVentas() {
 			let p1 = document.createElement('p');
 			let textoTitulo = document.createTextNode('ID: ' + venta.id);
 			let textoBody = document.createTextNode('CLIENTE: ' + venta.cliente.nombre);
-			let textoBody1 = document.createTextNode('TOTAL: ' + venta.totalVenta + ' €');
+			let textoBody1 = document.createTextNode('TOTAL: ' + venta.totalVenta.toFixed(2) + ' €');
 			let button = document.createElement('a');
 	
 	
@@ -526,10 +539,13 @@ function cargarVentas() {
 			button.text = 'SELECCIONAR';
 
 			button.addEventListener('click', function() {
+				console.log('entra listener de venta pulsada');
 				articulosCarrito = venta.articulos;
 				ventaCargada = venta;
 				cargarArticulos(venta.cliente);
-				rellenarCarrito()
+				rellenarCarrito();
+				let buttonGuardarVenta = document.getElementById('finalizar-venta');
+				buttonGuardarVenta.textContent = 'ACTUALIZAR VENTA';
 			}); 
 	
 			title.appendChild(textoTitulo);
