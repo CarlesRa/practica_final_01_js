@@ -204,33 +204,33 @@ function saveVenta() {
 
 			if (buttonGuardarVenta.textContent == 'ACTUALIZAR VENTA') {
 
-				ventasStorage.splice(ventasStorage.indexOf(ventaCargada), 1);
+				ventasFromStorage.splice(ventasFromStorage.indexOf(ventaCargada), 1);
 				ventaCargada.articulos = articulosCarrito;
 				ventaCargada.totalVenta = calcularTotalCarrito();
-				ventasStorage.push(ventaCargada);
+				ventasFromStorage.push(ventaCargada);
 
 				console.log(ventaCargada);
 			}
 			else {
-				if (ventasStorage !== null && ventasStorage.length > 0) {
+				if (ventasFromStorage !== null && ventasFromStorage.length > 0) {
 	
-					id = ventasStorage[ventasStorage.length -1].id + 1;
+					id = ventasFromStorage[ventasFromStorage.length -1].id + 1;
 				}
 				else {
 		
 					id = 1;
 				}
 				venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
-				if (ventasStorage !== null && ventasStorage.length > 0) {
-					ventasStorage.push(venta);
+				if (ventasFromStorage !== null && ventasFromStorage.length > 0) {
+					ventasFromStorage.push(venta);
 				}
 				else {
-					ventasStorage = new Array();
-					ventasStorage.push(venta);
+					//ventasFromStorage = new Array();
+					ventasFromStorage.push(venta);
 				}
 			}
 			localStorage.removeItem('ventas');
-			localStorage.setItem('ventas', JSON.stringify(ventasStorage));
+			localStorage.setItem('ventas', JSON.stringify(ventasFromStorage));
 			articulosCarrito = new Array();
 			rellenarCarrito();
 			deleteCookie('venta');
@@ -294,6 +294,7 @@ function cantidadIsNumber(cantidad) {
  */
 function cargarClientes() {
 
+	ventasFromStorage = JSON.parse(localStorage.getItem('ventas'));
 	let btnBorrar = document.getElementById('borrar-venta');
 	let jumbotron = document.getElementById('jumbo-ventas');
 	let padre = document.getElementById('cards-container');
