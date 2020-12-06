@@ -217,7 +217,6 @@ function saveVenta() {
 					id = ventasFromStorage[ventasFromStorage.length -1].id + 1;
 				}
 				else {
-		
 					id = 1;
 				}
 				venta = new Venta(id, clienteVenta, articulosCarrito, calcularTotalCarrito());
@@ -225,7 +224,7 @@ function saveVenta() {
 					ventasFromStorage.push(venta);
 				}
 				else {
-					//ventasFromStorage = new Array();
+					ventasFromStorage = new Array();
 					ventasFromStorage.push(venta);
 				}
 			}
@@ -602,10 +601,11 @@ function deleteCookie(name) {
  */
 function cookieExists(name, value) {
 
-	let cookie = document.cookie.split(';');
-	let index = cookie.indexOf(name + '=' + value);
+	//let cookie = document.cookie.trim().split(';');
+	//console.log(document.cookie.indexOf('venta'));
+	//let index = cookie.indexOf(name + '=' + value);
 
-	if (index === -1) {
+	if (document.cookie.indexOf('venta') === -1) {
 		return false;
 	}
 	else {
