@@ -121,7 +121,7 @@ function eliminarCliente(cliente) {
 		localStorage.setItem('clientes', JSON.stringify(clientes))
 		form.reset();
 		let submitButton = document.getElementById('submit');
-		submitButton.innerHTML = "ACTUALIZAR CLIENTE";
+		submitButton.innerHTML = "GUARDAR NUEVO CLIENTE";
 
 		cargarClientes();
 	}
